@@ -1,0 +1,19 @@
+CREATE DATABASE IF NOT EXISTS `library` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `library`;
+
+CREATE TABLE IF NOT EXISTS `books` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `author` VARCHAR(255) NOT NULL,
+  `availability` TINYINT(1) NOT NULL DEFAULT 1,
+  `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `genres` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL UNIQUE,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- books will store genres as a JSON array of genre names (e.g. ["fiction","mystery"]).
+ALTER TABLE `books` ADD COLUMN IF NOT EXISTS `genres` JSON NOT NULL DEFAULT (JSON_ARRAY());
